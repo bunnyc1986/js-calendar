@@ -1,0 +1,100 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
+  color: #333;
+  font-size: 12px;
+}
+
+#container {
+  margin: 40px;
+  height: 720px;
+}
+
+.timeline {
+  float: left;
+  width: 60px;
+  display: block;
+  height: 100%;
+}
+
+.eventpanel {
+  padding: 0 10px;
+  margin-left: 70px;
+  border-left: 1px solid #CCC;
+  background-color: #ECECEC;
+  width: 600px;
+  height: 100%;
+}
+
+.timeline div {
+  height: 30px;
+  position: relative;
+  font-size: 9px;
+  color: #CECECE;
+  text-align: right;
+}
+
+.timeline .hourly {
+  top: -8px;
+}
+
+.timeline .half {
+  top: -5px;
+}
+
+.timeline .hourly .time{
+  font-weight: bold;
+  font-size: 13px;
+  color: #686868;
+}
+
+.timeline .apm {
+  margin-left: 4px;
+}
+
+.timeline .half .apm{
+  display: none;
+}
+
+.eventpool {
+  position: relative;
+  height: 100%;
+}
+
+.event {
+  position: absolute;
+  overflow: hidden;
+}
+
+.event .vbar {
+  float: left;
+  height: 100%;
+  width: 4px;
+  background-color: #4B6EA8;
+}
+
+.event .contentWrapper {
+  border: 1px solid #CCC;
+  border-left: none;
+  background-color: #FFF;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.event .content {
+  margin: 10px;
+}
+
+.event .content h1 {
+  color: #4B6EA8;
+  font-size: 11px;
+}
+
+.event .content p {
+  color: #CCC;
+  font-size: 9px;
+}

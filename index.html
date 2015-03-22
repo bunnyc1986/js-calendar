@@ -1,0 +1,132 @@
+<!DOCTYPE>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <title>Facebook | Home</title>
+    <script src="js/react.min.js"></script>
+    <script src="js/JSXTransformer.js"></script>
+    <script src="js/eventLayout.js"></script>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script type="text/jsx">
+      // The JSX file can't be loaded by JSXTransformer locally
+      // due to browse security, so I have to place it inline this file.
+      var Timeline = React.createClass({
+        render: function() {
+          var scales = [];
+          for(var hour=9; hour<21; hour++) {
+            scales.push(
+              <TimelineScale hour={hour} minute={0} />
+            );
+            scales.push(
+              <TimelineScale hour={hour} minute={30} />
+            );
+          }
+          scales.push(
+            <TimelineScale hour={21} minute={0} />
+          );
+          return (
+            <div className="timeline">
+              {scales}
+            </div>
+          );
+        }
+      });
+
+      var TimelineScale = React.createClass({
+        render: function() {
+          var className= this.props.minute === 0 ? "hourly" : "half";
+          var hour = this.props.hour > 12 ?
+                      this.props.hour - 12 : this.props.hour;
+          var APM = this.props.hour > 12 ? "PM" : "AM";
+          var minute = ("0" + this.props.minute).slice(-2);
+          return (
+            <div className={className}>
+              <span className="time">{hour}:{minute}</span>
+              <span className="apm">{APM}</span>
+            </div>
+          )
+        }
+      });
+
+      var EventPanel = React.createClass({
+        render: function() {
+          var events = this.props.events.map(function(event) {
+            return (
+              <Event top={event.top} left={event.left}
+                height={event.height} width={event.width} id={event.id} />
+            );
+          });
+          return (
+            <div className="eventpanel">
+              <div className="eventpool">
+                {events}
+              </div>
+            </div>
+          );
+        }
+      });
+
+      var Event = React.createClass({
+        render: function() {
+          var style = {
+            top: this.props.top + 'px',
+            left: this.props.left + 'px',
+            height: this.props.height + 'px',
+            width: this.props.width + 'px'
+          };
+          return (
+            <div className="event" style={style} >
+              <div className="vbar"></div>
+              <div className="contentWrapper">
+                <div className="content">
+                  <h1>Sample Item</h1>
+                  <p>Sample Location</p>
+                </div>
+              </div>
+            </div>
+          );
+        }
+      });
+
+      var Calendar = React.createClass({
+        render: function() {
+          var eventLayouts = EventLayout.arrange(this.props.events);
+          return (
+            <div>
+              <Timeline />
+              <EventPanel events = {eventLayouts}/>
+            </div>
+          );
+        }
+      });
+
+      function layOutDay(events) {
+        React.render(
+          <Calendar events={events}/>,
+          document.getElementById('container')
+        );
+      }
+
+      var events = [
+        {start: 30, end: 150},
+        {start: 540, end: 600},
+        {start: 560, end: 620},
+        {start: 610, end: 670},
+        {start: 160, end: 210},
+        {start: 40, end: 110},
+        {start: 140, end: 190},
+        {start: 160, end: 570},
+        {start: 250, end: 400},
+        {start: 580, end: 610},
+        {start: 350, end: 450},
+        {start: 10, end: 70},
+        {start: 200, end: 400}
+        ];
+
+      layOutDay(events);
+    </script>
+  </body>
+</html>
