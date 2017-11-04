@@ -1,7 +1,9 @@
 var EventLayout = (function() {
   function detectOverlay(e1, e2) {
-    return (e1.start >= e2.start && e1.start<= e2.end) ||
-           (e1.end >= e2.start && e1.end <= e2.end);
+    return (e1.start >= e2.start && e1.start <= e2.end) ||
+           (e1.end >= e2.start && e1.end <= e2.end) ||
+           (e2.start >= e1.start && e2.start <= e1.end) ||
+           (e2.end >= e1.start && e2.end <= e1.end);
   }
 
   // group events having overlays
@@ -70,16 +72,21 @@ var EventLayout = (function() {
           layout.push([e]);
         }
       });
-
       var width = 600 / layout.length;
       layout.forEach(function(column, col) {
         column.forEach(function(e) {
-          eventLocations.push({
+          block = {
             top: e.start,
             height: e.end - e.start,
             left: col * width,
             width: width
-          });
+          };
+          for (var c = col+1; c < layout.length; c++) {
+            if (!layout[c].some(e1 => detectOverlay(e, e1))) {
+              block.width += width;
+            }
+          }
+          eventLocations.push(block);
         });
       });
     });
